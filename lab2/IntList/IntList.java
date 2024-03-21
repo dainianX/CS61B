@@ -12,7 +12,7 @@ public class IntList {
     /** Return the size of the list using... recursion! */
     public int size() {
         if (rest == null) {
-            return 1;
+            return 0;
         }
         return 1 + this.rest.size();
     }
