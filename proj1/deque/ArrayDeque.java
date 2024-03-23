@@ -124,7 +124,7 @@ public class ArrayDeque<T> implements Iterable<T> {
         return new ArrayDequeIterator();
     }
 
-    public boolean equals(Object o) {
+    /*public boolean equals(Object o) {
         if (this == o) {
             return true;
         }
@@ -141,5 +141,5 @@ public class ArrayDeque<T> implements Iterable<T> {
         }
 
         return true;
-    }
+    }*/
 }

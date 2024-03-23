@@ -1,7 +1,5 @@
 package deque;
 
-import afu.org.checkerframework.checker.oigj.qual.O;
-
 import java.util.Iterator;
 
 public class LinkedListDeque<T> implements Iterable<T> {
@@ -143,23 +141,26 @@ public class LinkedListDeque<T> implements Iterable<T> {
         return new LinkedListDequeIterator();
     }
 
-    @Override
+    /*@Override
     public boolean equals(Object o) {
         if (this == o) {
             return true;
         }
-
-        if ((o instanceof LinkedListDeque otherDeque)) {
-            if (this.size != otherDeque.size) {
+        if (o == null) {
+            return false;
+        }
+        if (!(o instanceof Deque)) {
+            return false;
+        }
+        Deque<T> ol = (Deque<T>) o;
+        if (ol.size() != this.size()) {
+            return false;
+        }
+        for (int i = 0; i < size; i++) {
+            if (!(ol.get(i).equals(this.get(i)))) {
                 return false;
             }
-            for (int i = 0; i < size; i++) {
-                if (!(otherDeque.get(i).equals(this.get(i)))) {
-                    return false;
-                }
-            }
         }
-
         return true;
-    }
+    }*/
 }
