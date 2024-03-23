@@ -157,11 +157,11 @@ public class LinkedListDeque<T> implements Iterable<T>, Deque<T> {
             return false;
         }
         LinkedListDeque<?> lld = (LinkedListDeque<?>) o;
-        if (lld.size() != this.size()) {
+        if (lld.size() != size()) {
             return false;
         }
-        for (int i = 0; i < this.size(); i++) {
-            if (lld.get(i) != this.get(i)) {
+        for (int i = 0; i < size; i++) {
+            if (lld.get(i) != get(i)) {
                 return false;
             }
         }

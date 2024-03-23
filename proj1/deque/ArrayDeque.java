@@ -18,29 +18,21 @@ public class ArrayDeque<T> implements Iterable<T>, Deque<T> {
     }
     @Override
     public void addFirst(T item) {
-        if (size == items.length) {
-            resize(items.length * 2);
-        }
         items[nextFirst] = item;
-        if (nextFirst == 0) {
-            nextFirst = items.length - 1;
-        } else {
-            nextFirst -= 1;
-        }
         size += 1;
+        nextFirst -= 1;
+        if (nextFirst == -1) {
+            resize(size * 2);
+        }
     }
     @Override
     public void addLast(T item) {
-        if (size == items.length) {
-            resize(items.length * 2);
-        }
         items[nextLast] = item;
-        if (nextLast == items.length - 1) {
-            nextLast = 0;
-        } else {
-            nextLast += 1;
-        }
         size += 1;
+        nextLast += 1;
+        if (nextLast == items.length) {
+            resize(size * 2);
+        }
     }
     @Override
     public int size() {
@@ -57,54 +49,50 @@ public class ArrayDeque<T> implements Iterable<T>, Deque<T> {
         if (isEmpty()) {
             return null;
         }
-        if ((size < items.length / 4) && (size > 8)) {
-            resize(items.length / 2);
-        }
-        T returnedItem = get(0);
+        nextFirst += 1;
+        T item = items[nextFirst];
+        items[nextFirst] = null;
         size -= 1;
-        nextFirst = actualArrayIndex(0);
-        return returnedItem;
+        shrinkSize();
+        return item;
     }
     @Override
     public T removeLast() {
         if (isEmpty()) {
             return null;
         }
-        if ((size < items.length / 4) && (size > 8)) {
-            resize(items.length / 2);
-        }
-        T returnedItem = get(size - 1);
+        nextLast -= 1;
+        T item = items[nextLast];
+        items[nextLast] = null;
         size -= 1;
-        nextLast = actualArrayIndex(size - 1);
-        return returnedItem;
+        shrinkSize();
+        return item;
     }
     @Override
     public T get(int index) {
-        if (isEmpty()) {
+        if (index < 0 || index > size - 1) {
             return null;
         }
-        return items[actualArrayIndex(index)];
+        int itemIndex = nextFirst + 1 + index;
+        return items[itemIndex];
     }
 
+    private void shrinkSize() {
+        if (isEmpty()) {
+            resize(8);
+        } else if (items.length / 4 > size && size >= 4) {
+            resize(size * 2);
+        }
+    }
     // Resize, using the last idea
-    private void resize(int capacity) {
-        T[] newArray = (T[]) new Object[capacity];
-        for (int i = 0; i < size; i++) {
-            newArray[capacity / 4 + i] = items[actualArrayIndex(i)];
-        }
-        items = newArray;
-        nextFirst = capacity / 4 - 1;
-        nextLast = nextFirst + size + 1;
+    private void resize(int s) {
+        T[] newItems = (T[]) new Object[s];
+        int firstPos = Math.abs(s - size) / 2;
+        System.arraycopy(items, nextFirst + 1, newItems, firstPos, size);
+        items = newItems;
+        nextFirst = firstPos - 1;
+        nextLast = firstPos + size;
     }
-
-    private int actualArrayIndex(int index) {
-        if (nextFirst + index + 1 >= items.length) {
-            return nextFirst + index + 1 - items.length;
-        } else {
-            return nextFirst + index + 1;
-        }
-    }
-
     private class ArrayDequeIterator implements Iterator<T> {
         private int wizPos;
         ArrayDequeIterator() {
@@ -140,11 +128,11 @@ public class ArrayDeque<T> implements Iterable<T>, Deque<T> {
             return false;
         }
         ArrayDeque<?> ad = (ArrayDeque<?>) o;
-        if (ad.size() != this.size()) {
+        if (ad.size() != size) {
             return false;
         }
-        for (int i = 0; i < this.size(); i++) {
-            if (ad.get(i) != this.get(i)) {
+        for (int i = 0; i < size; i++) {
+            if (ad.get(i) != get(i)) {
                 return false;
             }
         }
