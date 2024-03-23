@@ -88,7 +88,7 @@ public class LinkedListDeque<T> implements Iterable<T>, Deque<T> {
     // Use iteration
     @Override
     public T get(int index) {
-        if (index > size || index == 0) {
+        if (index > size - 1) {
             return null;
         }
 
@@ -115,16 +115,16 @@ public class LinkedListDeque<T> implements Iterable<T>, Deque<T> {
             return null;
         }
 
-        if (index == 1) {
+        if (index == 0) {
             return p.item;
         }
 
         return getRecursiveHelper(p.next, index - 1);
     }
 
-    private class LinkedListDequeIterator implements Iterator<T>{
+    private class LinkedListDequeIterator implements Iterator<T> {
         private int wizPos;
-        public LinkedListDequeIterator() {
+        LinkedListDequeIterator() {
             wizPos = 0;
         }
         @Override
@@ -147,21 +147,21 @@ public class LinkedListDeque<T> implements Iterable<T>, Deque<T> {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
         if (o == null) {
             return false;
         }
-        if (!(o instanceof Deque)) {
+        if (o == this) {
+            return true;
+        }
+        if (!(o instanceof ArrayDeque)) {
             return false;
         }
-        Deque<T> ol = (Deque<T>) o;
-        if (ol.size() != this.size()) {
+        ArrayDeque<?> lld = (ArrayDeque<?>) o;
+        if (lld.size() != this.size()) {
             return false;
         }
-        for (int i = 0; i < size; i++) {
-            if (!(ol.get(i).equals(this.get(i)))) {
+        for (int i = 0; i < this.size(); i++) {
+            if (lld.get(i) != this.get(i)) {
                 return false;
             }
         }

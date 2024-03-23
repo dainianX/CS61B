@@ -127,17 +127,9 @@ public class LinkedListDequeTest {
     @Test
     public void getMethodsTest() {
         LinkedListDeque<Integer> lld = new LinkedListDeque<Integer>();
-        lld.addFirst(2);
-        lld.addFirst(3);
-        lld.addFirst(4);
-        lld.addFirst(5);
-        lld.addFirst(6);
-        lld.addFirst(7);
-        lld.addFirst(8);
-        lld.addFirst(9);
+        lld.addFirst(0);
+        lld.addLast(1);
 
-        assertTrue("should have the same value", lld.getRecursive(3) == 7);
+        assertTrue("should have the same value", lld.getRecursive(1) == 1);
     }
 }
-
-

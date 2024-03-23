@@ -15,7 +15,7 @@ public class GuitarString {
 
     /* Create a guitar string of the given frequency.  */
     public GuitarString(double frequency) {
-        int capacity = (int)Math.round(SR / frequency);
+        int capacity = (int) Math.round(SR / frequency);
         buffer = new ArrayDeque<>();
         for (int i = 0; i < capacity; i++) {
             buffer.addFirst(0.0);
@@ -36,9 +36,6 @@ public class GuitarString {
      * the Karplus-Strong algorithm.
      */
     public void tic() {
-        // TODO: Dequeue the front sample and enqueue a new sample that is
-        //       the average of the two multiplied by the DECAY factor.
-        //       **Do not call StdAudio.play().**
         double firstSample = buffer.removeFirst();
         double secondSample = buffer.get(0);
         double newSample = (firstSample + secondSample) / 2 * DECAY;
