@@ -156,13 +156,13 @@ public class ArrayDequeTest {
 
         ad1.addLast(0);
         ad2.addLast(0);
-        assertEquals(ad1, ad2);
+        assertTrue("should be the same", ad1.equals(ad2));
 
         ad1.addLast(1);
-        assertNotEquals(ad1, ad2);
+        assertFalse("should not be the same", ad1.equals(ad2));
 
         ad2.addLast(2);
-        assertNotEquals(ad1, ad2);
+        assertFalse("should not be the same", ad1.equals(ad2));
     }
 
     @Test

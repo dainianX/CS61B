@@ -95,7 +95,7 @@ public class LinkedListDeque<T> implements Iterable<T>, Deque<T> {
         Node p = sentinel.next;
         T itemAtIndex = p.item;
 
-        for (int i = 1; i <= size; i++) {
+        for (int i = 0; i < size; i++) {
             if (i != index) {
                 p = p.next;
             } else {
@@ -153,10 +153,10 @@ public class LinkedListDeque<T> implements Iterable<T>, Deque<T> {
         if (o == this) {
             return true;
         }
-        if (!(o instanceof ArrayDeque)) {
+        if (!(o instanceof LinkedListDeque)) {
             return false;
         }
-        ArrayDeque<?> lld = (ArrayDeque<?>) o;
+        LinkedListDeque<?> lld = (LinkedListDeque<?>) o;
         if (lld.size() != this.size()) {
             return false;
         }
